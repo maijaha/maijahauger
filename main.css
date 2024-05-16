@@ -139,6 +139,18 @@
   .card p {
     font-variation-settings: "srff" 0, "ital" 0, 'wght' 0;
   }
+
+  .only-on-mobile {
+    display: none;
+  }
+
+  .scroll {
+       text-align: center;
+       font-size: 14px;
+       font-style: italic;
+       color: red;
+    }
+    
   
 
   @keyframes grow {
@@ -152,10 +164,38 @@
   
   @media only screen and (-webkit-min-device-pixel-ratio: 2) and (orientation: portrait) {
     .card {
-      transform: rotate(95deg);
+      transform: rotate(90deg);
+      height: calc(896px / 2);
+      width: calc(562px / 2);
+            top: 10vh;
+            bottom: auto;
+            left: 5vw;
+            right: 5vw;
+            transform: none;
+        }
+    
+        .card .head {
+            font-size: 36px;
+            line-height: 40px;
+        }
+    
+        .only-on-mobile {
+            font-size: 16px;
+            line-height: 18px;
+            display: block;
+        }
+
+        .exclude-on-mobile {
+            display: none;
+        }
+
+        .scroll {
+            display: none;
+        }
     }
-  }
+    
   
- 
+
+
   
 
