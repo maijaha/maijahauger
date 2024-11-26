@@ -2,6 +2,7 @@
   
   html, body {
     background: #fff;
+    font-family: 'Courier New', monospace;
     z-index: 1;
     padding: 0;
     margin: 0;
@@ -9,10 +10,9 @@
     text-rendering: optimizeLegibility;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    font-family: 'EB Garamond';
     font-variation-settings: "srff" 0, "ital" 0, 'wght' 0;
-    font-size: 18px;
-    line-height: 21px;
+    font-size: 12px;
+    line-height: 16px;
     cursor: crosshair
   }
   
@@ -78,16 +78,16 @@
     left: 0;
     right: 0;
     margin: auto;
-    padding: 20px;
+    padding: 13px;
     transform: rotate(3deg);
     transform-origin: center center;
     width: calc(896px / 2);
     height: calc(562px / 2);
     background: rgb(255, 255, 255);
-    -webkit-box-shadow: 0px 0px 10px 1px rgba(0, 0, 0, 0.7);
-    box-shadow: 0px 0px 10px 1px rgba(0, 0, 0, 0.7);
+    -webkit-box-shadow: 0px 0px 15px 1px rgba(0, 0, 0, 0.);
+    box-shadow: 0px 0px 7px 1px rgba(0, 0, 0, 0.7);
     overflow: scroll;
-    border-radius: 10px;
+    border-radius: 8px;
   }
 
   .card .project img {
@@ -104,35 +104,39 @@
     opacity: 1;
 }
 .card .head {
-    font-size: 36px;
-    line-height: 40px;
-    font-variation-settings: "srff" 100, "ital" 0, 'wght' 0;
-    color: rgb(73, 38, 85);
-    text-shadow: -0.5px -0.5px 0 orange,  
-    0.5px -0.5px 0 orange,
-   -0.5px  0.5px 0 orange,
-    0.5px  0.5px 0 orange;
-  }
+  font-size: 16px;
+  line-height: 40px;
+  font-variation-settings: "srff" 100, "ital" 0, 'wght' 0;
+  color: rgb(12, 12, 12);
+  position: absolute; 
+  top: 140px;         
+  right: 10px;       
+  transform: rotate(90deg); 
+  transform-origin: top right; 
+  white-space: nowrap; 
+  z-index: 2; 
+  pointer-events: none; 
+}
+
 
   .card .intro p {
-    font-size: 14px;
-    color: rgb(29, 27, 29);
-    line-height: 18px;
+    font-size: 12px;
+    color: rgb(45, 45, 45);
+    line-height: 16px;
     font-variation-settings: "srff" 100, "ital" 0, 'wght' 0;
   }
 
   .card .project {
-    font-size: 18px;
-    font-style: italic;
-    color: rgb(73, 38, 85);
-    line-height: 18px;
+    font-size: 16px;
+    color: rgb(45, 45, 45);
+    line-height: 14px;
     font-variation-settings: "srff" 100, "ital" 0, 'wght' 0;
   }
 
   .card .info {
-    font-size: 14px;
+    font-size: 12px;
     color: rgb(0, 0, 0);
-    line-height: 18px;
+    line-height: 14px;
     font-variation-settings: "srff" 100, "ital" 0, 'wght' 0;
   }
   
@@ -191,13 +195,13 @@
         }
     
         .card .head {
-            font-size: 36px;
+            font-size: 16px;
             line-height: 40px;
         }
     
         .only-on-mobile {
-            font-size: 16px;
-            line-height: 18px;
+            font-size: 10px;
+            line-height: 12px;
             display: block;
         }
 
