@@ -1,0 +1,23 @@
+{
+  "name": "maija-hauger-portfolio",
+  "version": "1.0.0",
+  "description": "Maija Hauger's design portfolio website",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js"
+  },
+  "dependencies": {
+    "express": "^4.18.2"
+  },
+  "keywords": [
+    "portfolio",
+    "design",
+    "website"
+  ],
+  "author": "Maija Hauger",
+  "license": "MIT"
+}
+
+
+

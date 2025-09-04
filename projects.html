@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href='https://fonts.googleapis.com/css?family=EB Garamond' rel='stylesheet'>
+    <link rel="stylesheet" href="project.css">
+    <link href="index.html">
+</head>
+
+<body>
+
+    <div class="intro">
+        <p>About</p>
+      
+        <div class="bread">
+          <p>
+            As a designer I try to be curious. <br><br>
+            I enjoy working in collaborative settings, across disciplines. 
+            I’m especially interested in public sector design, where I use visual design, facilitation, and method 
+            development to create spaces for reflection, learning, and new perspectives. <br><br>
+            Currently<br>Looking for work<br><br>
+            Past (2022-25)<br>Master thesis: Bending the Line. <br>
+            Facilitated RSD13. <br>
+            The Morning Studio, Design Academy Eindhoven, Netherlands.<br>
+            Designer for Levende Gater, PBE, Oslo municipality. <br>
+            Board member and Leader of student council, The Oslo School of Architecture and Design.  
+          </p>
+          <img src="images/makingpokemon.png">
+        </div>
+      </div>
+      
+
+<div class="work"> 
+
+    <div class="project bending">
+        <p>Bending the Line</p><br><img src="images/bending.png"></div> 
+        <br>
+        <div class="info bending">
+    <p>Explored how Nav’s AI strategy could challenge linear organisational logics. By creating aesthetic disruptions and conversational tools,
+         I helped surface tensions and open reflective dialogue. The outcome was a feedbackloop that allows situated learning through experimentation.
+         My approach became a method book for an alternative way to deal with change.</p>
+        <br><br>
+        Master thesis, 2025. 
+        <br><br>
+        Collaborator: The Norwegian Labour and Welfare Administration (Nav).
+        <br><br>
+        Award: Complexity and Hollistic Approach, Halogen.
+    </div>
+    
+     <div class="project coast">
+    <p>Coast as a Host: Initiativsonen</p><br><img src="images/bugøynes.png"></div>
+        <br>
+    <div class="info coast">
+    <p>Proposed tools to strengthen belonging in Sør-Varanger by valuing contributions of all scales. These were framed as three steps: recruiting 
+        initiators, cultivating initiative, and unlocking common spaces. Through scalable interventions and digital tools, the municipality can 
+        better support both newcomers and locals, building long-term community resilience.</p>
+        <br><br>
+        Digital Commons: Strategic Design for Society, 2024.
+        <br><br>
+        Collaborator: Kystutviklingssenteret / Sør-Varanger Utvikling.
+        <br><br>
+        With: Anna K. Halvorsen, Jenny Bjørgum, Per R. Christensen.
+    </div>              
+
+    <div class="project stretch">
+    <p>The Stretch</p><br><img src="images/7.png"> </div>
+        <br>
+    <div class="info stretch">
+        <p>Co-designed with Bærum Child Welfare Services, this project developed a tool to explore tensions in employees core functions and values. By
+             framing these “stretched” situations as opportunities for reflection, the tool created a basis for both local peer to peer support and 
+             broader system-level conversations.</p>
+        <br><br>
+        Service Design Futures, 2024.
+        <br><br>
+        Collaborator: The Child Welfare System, Bærum.
+        <br><br>
+        Nomination: Service Design Award.
+    </div>
+
+    <div class="project levende">
+    <p>Levende Gater for Oslo PBE</p><br><img src="images/levende.png"></div>
+        <br>
+    <div class="info levende">
+        <p>A digital platform to connect Oslo neighbours by making local resources visible and encouraging sharing. Continued development
+             with PBE and other student groups led to a consolidated contribution for PBE’s “Levende Gater”–report. The project showed how
+              design can strengthen urban communities by surfacing hidden value in neighbourhoods.</p>
+            <br> <br>
+            Service and Interaction Design Specialisation, 2023.
+            <br><br>
+            Collaborator: Oslo municipality, Agency for Planning and Building Services (PBE).
+            <br><br>
+            With: Ingvild Dekeyser.
+        </div>
+
+     <div class="project abstrakt">
+    <p>Publication: abstrakt bok (book of abstracts)</p><br><img src="images/abstrakt.png"></div>
+        <br>
+    <div class="info abstrakt">
+        <p>Giving shape to design students academic work, otherwise easily forgotten and inaccessible to others.  I focused on the cover and graphic concept, and 
+            learned how strong collaboration and clear role division can create beautiful things fast. I'm proud of this project because it was fun and full 
+            of learning, as well as being my first paid design job.</p>
+             <br><br>
+             Design Research, 2022.
+             <br><br>
+             For: Guttorm Ruud.
+             <br><br>
+             With: Jenny Bjørgum and Benjamin Romm.
+    </div>
+
+    <div class="project ease">
+        <p>Space of Ease</p><br><img src="images/ease.png"></div>
+            <br>
+        <div class="info ease">
+            <p>Together with RICK and Dutch schools, we designed tools for students to shape “spaces of ease,” supporting psychological safety as a
+                 prerequisite for creativity. The outcome was a set of adaptable methods that enabled youth to take ownership of their learning environments,
+                  building both confidence and creative expression. </p>
+                 <br><br>
+                 The Morning Studio, 2023.
+                 <br><br>
+                 For: RICK, Netherlands.
+                 <br><br>
+                 With: Zoé Monstrey and Finn Schumacher.
+        </div>
+        </div>
+
+        <div class="back" onclick="window.location.href='index.html'">
+            <p>Home</p>
+        </div>
+
+<script>
+// Simple project cycling - show one project at a time
+let currentIndex = 0;
+const projects = ['bending', 'coast', 'stretch', 'levende', 'abstrakt', 'ease'];
+
+function showProject(index) {
+    // Hide ALL projects and info first
+    document.querySelectorAll('.project, .info').forEach(el => {
+        el.style.display = 'none';
+    });
+    
+    // Show only the current project and its info
+    const currentProject = projects[index];
+    const projectElements = document.querySelectorAll('.project.' + currentProject + ', .info.' + currentProject);
+    
+    if (projectElements.length > 0) {
+        projectElements.forEach(el => {
+            el.style.display = 'block';
+        });
+    }
+}
+
+function nextProject() {
+    currentIndex = (currentIndex + 1) % projects.length;
+    showProject(currentIndex);
+}
+
+// Initialize when page loads
+window.onload = function() {
+    // Start with first project
+    showProject(0);
+    
+    // Add click listener to the entire work area
+    document.addEventListener('click', function(e) {
+        // Don't trigger on back button or intro area
+        if (e.target.closest('.back') || e.target.closest('.intro')) {
+            return;
+        }
+        nextProject();
+    });
+};
+</script>
+
+</body>
+</html>
