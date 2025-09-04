@@ -1,6 +1,6 @@
 # Maija Hauger Portfolio Website
 
-A beautiful, minimalist portfolio website showcasing Maija Hauger's design work with smooth page transitions and elegant navigation.
+A portfolio website showcasing Maija Hauger's design work.
 
 ## Features
 
