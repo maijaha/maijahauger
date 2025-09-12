@@ -137,18 +137,13 @@ const projects = ['bending', 'coast', 'stretch', 'levende', 'abstrakt', 'ease'];
 function showProject(index) {
     // Hide ALL projects and info first
     document.querySelectorAll('.project, .info').forEach(el => {
-        el.style.display = 'none';
+        el.classList.remove('visible');
     });
     
     // Show only the current project and its info
     const currentProject = projects[index];
     const projectElements = document.querySelectorAll('.project.' + currentProject + ', .info.' + currentProject);
-    
-    if (projectElements.length > 0) {
-        projectElements.forEach(el => {
-            el.style.display = 'block';
-        });
-    }
+    projectElements.forEach(el => el.classList.add('visible'));
 }
 
 function nextProject() {
@@ -156,11 +151,10 @@ function nextProject() {
     showProject(currentIndex);
 }
 
-// Initialize when page loads
-window.onload = function() {
-    // Start with first project
+// Initialize as soon as DOM is ready (earlier than window.onload)
+document.addEventListener('DOMContentLoaded', function() {
     showProject(0);
-    
+
     // Add click listener to the entire work area
     document.addEventListener('click', function(e) {
         // Don't trigger on back button or intro area
@@ -169,7 +163,7 @@ window.onload = function() {
         }
         nextProject();
     });
-};
+});
 </script>
 
 </body>
