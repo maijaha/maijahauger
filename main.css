@@ -1,213 +1,322 @@
-
-  
-  html, body {
-    background: #fff;
-    font-family: 'Courier New', monospace;
-    z-index: 1;
-    padding: 0;
-    margin: 0;
-    overflow: hidden;
-    text-rendering: optimizeLegibility;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-    font-variation-settings: "srff" 0, "ital" 0, 'wght' 0;
-    font-size: 12px;
-    line-height: 16px;
-    cursor: crosshair;
-    transition: all 0.5s ease-in-out;
+/* ============================================
+   CSS Variables & Constants
+   ============================================ */
+:root {
+  --transition: all 0.3s ease-in-out;
+  --transition-fast: all 0.2s ease-in-out;
 }
 
-/* Page transition animations */
-.page-transition {
-    opacity: 0;
-    transform: translateY(20px);
-    transition: all 0.3s ease-in-out;
+/* ============================================
+   Projects Background Iframe
+   ============================================ */
+
+.projects-background {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border: none;
+  opacity: 0.15;
+  pointer-events: none;
+  z-index: 1;
+  transition: opacity 0.6s ease-in-out;
 }
 
-.page-transition.loaded {
-    opacity: 1;
-    transform: translateY(0);
+.projects-background.active {
+  opacity: 1;
+  pointer-events: auto;
+  z-index: 10;
 }
 
-.fade-out {
-    opacity: 0;
-    transform: translateY(-20px);
-    transition: all 0.2s ease-in-out;
-}
-  
-  a, button, input, label {
-    cursor: default;
-  }
+/* ============================================
+   Base Styles & Reset
+   ============================================ */
 
-
-  .box {
-    width: 100vw;
-    height: 100vh;
-    position: relative;
-    overflow: hidden;
-    border-radius: 10px;
-  }
-  
-  .box::before {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-image: radial-gradient(
-      circle at center, 
-      rgba(255, 255, 255, 0), 
-      rgba(255, 255, 255, 0) 10%, 
-      rgba(255, 255, 255, 1) 40%
-    ), url('2024-02-07-0001.jpg'); 
-    background-size: cover;
-    background-position: center center;
-    mix-blend-mode: overlay;
-  }
-
-  .context {
-    font-size: 10pt;
-    position: fixed;
-    right: 20px; 
-    bottom: 20px;
-    margin-right: 10px; 
-    margin-bottom: 10px; 
-    color: orange;
+html, body {
+  background: transparent;
+  font-family: 'Inter';
+  z-index: 1;
+  padding: 0;
+  margin: 0;
+  overflow: hidden;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-size: 12px;
+  line-height: 16px;
+  font-weight: 400;
+  cursor: default;
+  transition: var(--transition);
+  opacity: 1;
 }
 
-  *, *:after, *:before {
-    -webkit-box-sizing: border-box;
-    -moz-box-sizing: border-box;
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-  }
-  
-  ul, li {
-    list-style: none;
-    margin: 0;
-    padding: 0;
-  }
-  
-  .card {
-    position: fixed;
-    top: 0;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    margin: auto;
-    padding: 13px;
-    transform: rotate(3deg);
-    transform-origin: center center;
-    width: calc(896px / 2);
-    height: calc(562px / 2);
-    background: rgb(255, 255, 255);
-    -webkit-box-shadow: 0px 0px 15px 1px rgba(0, 0, 0, 0.);
-    box-shadow: 0px 0px 7px 1px rgba(0, 0, 0, 0.7);
-    overflow: hidden;
-    cursor: default;
-    border-radius: 8px;
-    transition: all 0.3s ease-in-out;
+/* Background image with circular fade: fully visible in center, fades to transparent at edges */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background-image: url('images/bakgrunn.webp');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  mask-image: radial-gradient(circle at center, rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 0.6) 25%, rgba(0, 0, 0, 0) 60%);
+  -webkit-mask-image: radial-gradient(circle at center, rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 0.6) 30%, rgba(0, 0, 0, 0) 60%);
+}
+
+*, *:after, *:before {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+ul, li {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+a, button, input, label {
+  cursor: default;
+}
+
+/* ============================================
+   Background & Container
+   ============================================ */
+
+.box {
+  width: 100vw;
+  height: 100vh;
+  position: relative;
+  overflow: hidden;
+  border-radius: 10px;
+}
+
+
+
+/* ============================================
+   Card Component
+   ============================================ */
+
+.card {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  margin: auto;
+  padding: 13px;
+  transform: rotate(3deg);
+  transform-origin: center center;
+  width: calc(896px / 2);
+  height: calc(562px / 2);
+  background: rgb(0, 0, 255);
+  box-shadow: 0px 0px 7px 1px rgba(0, 0, 0, 0.7);
+  overflow: hidden !important;
+  cursor: pointer;
+  transition: var(--transition);
+  z-index: 100;
+  opacity: 1;
+  color: rgb(255, 255, 255);
 }
 
 .card:hover {
-    transform: rotate(3deg) scale(1.02);
-    box-shadow: 0px 0px 15px 1px rgba(0, 0, 0, 0.8);
+  transform: rotate(3deg) scale(1.02);
+  box-shadow: 0px 0px 15px 1px rgba(0, 0, 0, 0.8);
 }
 
 
 .card .head {
-  font-size: 16px;
+  font-size: 30px;
   line-height: 40px;
-  font-variation-settings: "srff" 100, "ital" 0, 'wght' 0;
-  color: rgb(12, 12, 12);
-  position: absolute; 
-  top: 140px;         
-  right: 10px;       
-  transform: rotate(90deg); 
-  transform-origin: top right; 
-  white-space: nowrap; 
-  z-index: 2; 
-  pointer-events: none; 
+  font-weight: 600;
+  color: rgb(255, 255, 255);
+  position: absolute;
+  top: 220px;
+  right: 15px;
+  transform: rotate(90deg);
+  transform-origin: top right;
+  white-space: nowrap;
+  z-index: 2;
+  pointer-events: none;
 }
-  
-  .card p {
-    font-variation-settings: "srff" 0, "ital" 0, 'wght' 0;
+
+#main-card .head {
+  font-size: 30px;
+  font-weight: 200;
+  letter-spacing: 0.2em;
+  color: rgb(255, 255, 255);
+  position: absolute;
+  top: 257px;
+  right: 12px;
+  transform: rotate(90deg);
+  transform-origin: top right;
+  white-space: nowrap;
+  z-index: 2;
+  pointer-events: none;
+}
+
+.card .adress {
+  color: rgb(255, 255, 255);
+  font-weight: 300;
+  font-size: 13px;
+  position: absolute;
+  bottom: 8px;
+  left: 25px;
+  right: 13px;
+}
+
+.card .adress a {
+  color: rgb(255, 255, 255);
+}
+
+
+/* ============================================
+   UI Elements
+   ============================================ */
+
+.context {
+  font-size: 10pt;
+  position: fixed;
+  right: 20px;
+  bottom: 20px;
+  margin-right: 10px;
+  margin-bottom: 10px;
+  color: rgb(0, 0, 0);
+  z-index: 100;
+  opacity: 1;
+  transition: opacity 0.6s ease-in-out;
+}
+
+.guide {
+  font-size: 18px;
+  font-style: italic;
+  font-weight: 200;
+  color: rgb(0, 0, 0);
+  text-align: center;
+  position: fixed;
+  /* Position using viewport units to scale naturally */
+  top: 27vh;
+  left: 24vw;
+  /* Gradually rotate from -20deg (at large viewport) toward card's rotation (3deg) as viewport shrinks */
+  /* At 1920px: -20deg, at 768px: 3deg (matching card) */
+  transform: rotate(calc(-20deg + (23deg * clamp(0, (1 - (100vw - 768px) / (1920px - 768px)), 1))));
+  z-index: 100;
+  opacity: 1;
+  transition: var(--transition);
+}
+
+
+.only-on-mobile {
+  display: none;
+  position: absolute;
+  bottom: -30px; /* Position below the address text, outside card bottom */
+  left: 13px;
+  right: 13px;
+  font-size: 15px;
+  font-style: italic;
+  font-weight: 250;
+  color: rgb(0, 0, 0);
+  text-align: center;
+}
+
+/* ============================================
+   Page Transitions
+   ============================================ */
+
+.page-transition {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: var(--transition);
+}
+
+.page-transition.loaded {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.fade-out {
+  opacity: 0;
+  transform: translateY(-20px);
+  transition: var(--transition-fast);
+}
+
+/* ============================================
+   Animations
+   ============================================ */
+
+@keyframes blink {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0;
+  }
+}
+
+@keyframes hide {
+  to {
+    opacity: 0;
+    visibility: hidden;
+  }
+}
+
+@keyframes grow {
+  from {
+    width: 0;
+  }
+  to {
+    width: 100vw;
+  }
+}
+
+/* ============================================
+   Media Queries
+   ============================================ */
+
+@media only screen and (-webkit-min-device-pixel-ratio: 2) and (orientation: portrait),
+       (max-width: 768px) {
+  .card {
+    transform: rotate(3deg);
+    height: calc(896px / 2);
+    width: calc(562px / 2);
+    top: 10vh;
+    bottom: auto;
+    left: 5vw;
+    right: 5vw;
+  }
+
+  .card:hover {
+    transform: rotate(3deg);
+    box-shadow: 0px 0px 7px 1px rgba(0, 0, 0, 0.7);
+  }
+
+  .card .head {
+    font-size: 16px;
+    line-height: 40px;
+  }
+
+  .card {
+    overflow: visible !important; /* Allow content to show inside card bounds */
   }
 
   .only-on-mobile {
+    display: block; /* Only enable visibility, let base styles control appearance */
+  }
+
+  .exclude-on-mobile {
+    display: none;
+  }
+
+  .guide {
     display: none;
   }
 
   .scroll {
-       text-align: center;
-       font-size: 14px;
-       font-style: italic;
-       color: red;
-    }
-    
-    .scroll {
-      text-align: center;
-      font-size: 14px;
-      font-style: italic;
-      color: red;
-      animation: blink 1s steps(1, end) 3, hide 0s forwards 3s;
+    display: none;
   }
-  
-  @keyframes blink {
-      0%, 100% { opacity: 1; }
-      50% { opacity: 0; }
-  }
-  
-  @keyframes hide {
-      to { opacity: 0; visibility: hidden; }
-  }
-  
-
-  @keyframes grow {
-    from {
-      width: 0;
-    }
-    to {
-      width: 100vw;
-    }
-  }
-  
-  @media only screen and (-webkit-min-device-pixel-ratio: 2) and (orientation: portrait) {
-    .card {
-      transform: rotate(90deg);
-      height: calc(896px / 2);
-      width: calc(562px / 2);
-            top: 10vh;
-            bottom: auto;
-            left: 5vw;
-            right: 5vw;
-            transform: none;
-        }
-    
-        .card .head {
-            font-size: 16px;
-            line-height: 40px;
-        }
-    
-        .only-on-mobile {
-            font-size: 10px;
-            line-height: 12px;
-            display: block;
-        }
-
-        .exclude-on-mobile {
-            display: none;
-        }
-
-        .scroll {
-            display: none;
-        }
-    }
-    
-  
-
-
-  
-
+}

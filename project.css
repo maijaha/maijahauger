@@ -1,173 +1,580 @@
-/* Hide all projects and info by default to prevent flicker before JS runs */
+/* ============================================
+   CSS Variables & Constants
+   ============================================ */
+:root {
+  --transition: all 0.5s cubic-bezier(0.25, 0.1, 0.25, 1);
+  --transition-fast: all 0.4s cubic-bezier(0.25, 0.1, 0.25, 1);
+  --image-height: 350px;
+  --preview-width: 300px;
+  --preview-opacity: 0.6;
+  --center-top: 10vh;
+  --image-alignment: calc(10vh + 20px + 16px + 16px + 14px);
+  /* Fluid card width for all projects/info/facts on desktop */
+  --card-width: clamp(320px, 48vw, 640px);
+}
+
+/* ============================================
+   Page Transition
+   ============================================ */
+
+body {
+  opacity: 0;
+  transition: opacity 0.6s ease-in-out;
+}
+
+body.fade-in {
+  opacity: 1;
+}
+
+/* ============================================
+   Base Styles & Visibility
+   ============================================ */
+
+/* Hide all projects, info and facts by default to prevent flicker before JS runs */
 .project,
-.info {
+.info,
+.facts {
   display: none;
 }
 
 /* Only show the currently active ones */
 .project.visible,
-.info.visible {
+.info.visible,
+.facts.visible {
   display: block;
 }
 
-/* Ensure only the active items render; must come after other rules */
-.project:not(.visible),
-.info:not(.visible) {
+/* Ensure only the active items render */
+.project:not(.visible):not(.next):not(.previous),
+.info:not(.visible),
+.facts:not(.visible) {
   display: none !important;
 }
 
-html, body {
-    background: #fff;
-    font-family: 'Courier New', monospace;
-    z-index: 1;
-    padding: 20;
-    margin: 20;
-    overflow: hidden;
-    text-rendering: optimizeLegibility;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-    font-variation-settings: "srff" 0, "ital" 0, 'wght' 0;
-    line-height: 16px;
-    cursor:crosshair
-  }
-
-  .intro:hover .bread {
-    display: block;
-    opacity: 1;
-  }
-
-  .bread {
-    display: none;
-    top: 50px;
-    right: 10px;    
-    width: 200px;  
-    font-size: 12px;
-    line-height: 16px;
-    background-color: white;
-    position: absolute;
-    text-align: middle;
-    z-index: 1000;
-    border: 0.5px solid black;
-    padding: 10px;
-  }
-
-  .bread img {
-    max-width: 100%;
-    width: 250px;
-    height: auto;
-    display: block;
-    margin-top: 10px;
-    border: 0.5px solid black;
-  }
-
-  .intro {
-    cursor: default;
-    font-size: 24px;
-    top: 10px;            
-    right: 30px;           
-    transform-origin: top right;
-    position: absolute;   
-    z-index: 1001;
-  }
-  
-  .back {
-    font-size: 24px;      
-    color: red;
-    cursor: default;      
-    position: absolute;
-    top: 10px;            
-    left: 30px;           
-    transform-origin: top left;
-  }
-  
-
-.project img {
-    max-width: 100%;
-    height: auto;
-    display: block;
-    opacity: 1;
-    border: 0.5px solid black;
-    margin-bottom: 20px;
-    max-height: 400px;
-    object-fit: cover;
-    width: 100%;
-}
-
+/* Base project container */
 .project {
-    font-size: 16px;
-    color: rgb(45, 45, 45);
-    line-height: 14px;
-    font-variation-settings: "srff" 100, "ital" 0, 'wght' 0;
-    cursor: default;
-    padding: 20px;
-    border: 1px solid transparent;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    text-align: left;
-    max-width: 600px;
-    margin: 0 auto;
-    position: absolute;
-    top: 100px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 100%;
-    max-width: 600px;
-    height: 300px;
-    z-index: 1;
-    transition: all 0.3s ease-in-out;
- }
- 
- .project:hover {
-     transform: translateX(-50%) scale(1.02);
- }
- 
- .project::after {
-     content: "→";
-     position: absolute;
-     top: 34px;
-     right: 20px;
-     font-size: 18px;
-     color: rgba(0, 0, 0, 0.3);
-     opacity: 0;
-     transition: all 0.3s ease-in-out;
-     transform: translateX(-5px);
- }
- 
- .project:hover::after {
-     opacity: 1;
-     transform: translateX(0);
-     color: rgba(0, 0, 0, 0.6);
- }
-
-.selected works {
-  font-size: 24px;
-  text-align: center;
-  cursor: default;      
+  font-size: clamp(18px, 1.8vw, 24px);
+  color: rgb(45, 45, 45);
+  line-height:5px;
+  font-weight: 400;
+  cursor: default;
+  padding: 20px;
+  border: 1px solid transparent;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: left;
+  max-width: var(--card-width);
+  margin: 0 auto;
   position: absolute;
-  top: 10px;            
+  top: var(--center-top);
+  left: 50%;
+  transform: translateX(-50%);
+  width: var(--card-width);
+  max-width: var(--card-width);
+  z-index: 1;
+  box-sizing: border-box;
+  transition: transform 0.5s cubic-bezier(0.25, 0.1, 0.25, 1),
+              opacity 0.5s cubic-bezier(0.25, 0.1, 0.25, 1);
+  will-change: transform, opacity;
+  backface-visibility: hidden;
+  -webkit-font-smoothing: antialiased;
 }
+
+/* Base project images */
+.project img {
+  max-width: 100%;
+  width: 100%;
+  height: var(--image-height);
+  display: block;
+  opacity: 1;
+  border: 0.5px solid black;
+  margin: 0;
+  object-fit: cover;
+  flex-shrink: 0; /* Prevent image from shrinking */
+}
+
+/* ============================================
+   Project States: Visible, Next, Previous
+   ============================================ */
+
+/* Main visible project in center */
+.project.visible {
+  opacity: 1 !important;
+  align-items: flex-start !important;
+  padding: 15px !important;
+}
+
+/* Next preview on the right - same size as center, just offset so only a bit shows */
+.project.next {
+  display: flex !important;
+  position: absolute;
+  left: 50%;
+  top: var(--image-alignment);
+  transform: translateX(calc(50vw - (var(--card-width) / 2)));
+  width: var(--card-width);
+  max-width: var(--card-width);
+  padding: 20px;
+  opacity: var(--preview-opacity);
+  z-index: 0;
+  transition: transform 0.5s cubic-bezier(0.25, 0.1, 0.25, 1), 
+              opacity 0.5s cubic-bezier(0.25, 0.1, 0.25, 1);
+  align-items: flex-start;
+  align-content: flex-start;
+  cursor: pointer;
+  will-change: transform, opacity;
+  backface-visibility: hidden;
+  box-sizing: border-box !important;
+  overflow: hidden !important;
+}
+
+.project.next img {
+  transition: none; /* no animation on image size/opacity */
+  align-self: flex-start;
+}
+
+.project.next p {
+  display: none;
+}
+
+/* Previous preview on the left - same size as center, just offset so only a bit shows */
+.project.previous {
+  display: flex !important;
+  position: absolute;
+  left: 50%;
+  top: var(--image-alignment); /* Align image area with center image */
+  transform: translateX(calc(-50vw - (var(--card-width) / 2)));
+  width: var(--card-width);
+  max-width: var(--card-width);
+  padding: 20px;
+  opacity: var(--preview-opacity);
+  z-index: 0;
+  transition: transform 0.5s cubic-bezier(0.25, 0.1, 0.25, 1), 
+              opacity 0.5s cubic-bezier(0.25, 0.1, 0.25, 1);
+  align-items: flex-start;
+  align-content: flex-start;
+  cursor: pointer;
+  will-change: transform, opacity;
+  backface-visibility: hidden;
+  box-sizing: border-box;
+}
+
+.project.previous img {
+  transition: none; /* no animation on image size/opacity */
+  align-self: flex-start;
+}
+
+.project.previous p {
+  display: none;
+}
+
+/* ============================================
+   Animation States: Forward Navigation
+   ============================================ */
+
+/* Visible moves to left (becomes previous) */
+.project.visible.moving-left {
+  left: 50%;
+  transform: translateX(calc(-50vw - (var(--card-width) / 2)));
+  opacity: var(--preview-opacity);
+  z-index: 0;
+  top: var(--image-alignment);
+}
+
+.project.visible.moving-left p {
+  display: none;
+}
+
+.project.visible.moving-left img {
+  display: block;
+  width: 100%;
+  height: var(--image-height);
+  object-fit: cover;
+}
+
+/* Visible moves to become previous */
+.project.visible.moving-to-previous {
+  left: 50%;
+  transform: translateX(calc(-50vw - (var(--card-width) / 2))) !important; /* same final x-position as .project.previous */
+  opacity: 1; /* Full opacity during movement, fades in Phase 2 */
+  z-index: 0;
+  top: var(--image-alignment) !important;
+  transition: transform 0.5s cubic-bezier(0.25, 0.1, 0.25, 1),
+              opacity 0.5s cubic-bezier(0.25, 0.1, 0.25, 1);
+  will-change: transform, opacity;
+  backface-visibility: hidden;
+}
+
+.project.visible.moving-to-previous.fade-opacity {
+  opacity: var(--preview-opacity) !important;
+  transition: transform 0.5s cubic-bezier(0.25, 0.1, 0.25, 1),
+              opacity 0.5s cubic-bezier(0.25, 0.1, 0.25, 1) !important;
+  will-change: opacity;
+}
+
+.project.visible.moving-to-previous p {
+  display: none;
+}
+
+/* Next preview moves to center (becomes visible) */
+.project.next.moving-center {
+  left: 50%;
+  transform: translateX(-50%);
+  width: var(--card-width) !important;
+  max-width: var(--card-width) !important;
+  padding: 15px !important;
+  opacity: 1 !important;
+  z-index: 1;
+  top: var(--center-top) !important;
+  align-items: flex-start !important;
+  transition: transform 0.5s cubic-bezier(0.25, 0.1, 0.25, 1),
+              opacity 0.5s cubic-bezier(0.25, 0.1, 0.25, 1) !important;
+  transition-property: transform, opacity !important;
+  will-change: transform, opacity;
+  backface-visibility: hidden;
+}
+
+.project.next.moving-center p {
+  display: block;
+}
+
+.project.next.moving-center img {
+  transition: none !important;
+  width: 100% !important;
+  max-width: 100% !important;
+}
+
+/* New next element appears from the right */
+.project.next.moving-in-from-right,
+.project.moving-in-from-right.next {
+  left: 50%;
+  transform: translateX(calc(50vw + (var(--card-width) / 2))) !important;
+  width: var(--card-width);
+  max-width: var(--card-width);
+  padding: 20px !important;
+  opacity: var(--preview-opacity) !important;
+  z-index: 0;
+  top: var(--image-alignment) !important;
+  will-change: transform, opacity;
+  backface-visibility: hidden;
+}
+
+/* ============================================
+   Animation States: Backward Navigation
+   ============================================ */
+
+/* Visible moves to become next (backward) */
+.project.visible.moving-to-next {
+  left: 50%;
+  transform: translateX(calc(50vw - (var(--card-width) / 2))) !important;
+  opacity: 1; /* Full opacity during movement, will fade in Phase 2 */
+  z-index: 0;
+  top: var(--image-alignment) !important;
+  transition: transform 0.5s cubic-bezier(0.25, 0.1, 0.25, 1),
+              opacity 0.5s cubic-bezier(0.25, 0.1, 0.25, 1);
+  will-change: transform, opacity;
+  backface-visibility: hidden;
+}
+
+.project.visible.moving-to-next.fade-opacity {
+  opacity: var(--preview-opacity);
+  transition: opacity 0.5s cubic-bezier(0.25, 0.1, 0.25, 1);
+}
+
+.project.visible.moving-to-next p {
+  display: none;
+}
+
+/* Previous preview moves to center (becomes visible) */
+.project.previous.moving-center {
+  left: 50%;
+  transform: translateX(-50%);
+  width: var(--card-width) !important;
+  max-width: var(--card-width) !important;
+  padding: 15px !important;
+  opacity: 1 !important;
+  z-index: 1;
+  top: var(--center-top) !important;
+  align-items: flex-start !important;
+  transition: transform 0.5s cubic-bezier(0.25, 0.1, 0.25, 1),
+              opacity 0.5s cubic-bezier(0.25, 0.1, 0.25, 1) !important;
+  transition-property: transform, opacity !important;
+  will-change: transform, opacity;
+  backface-visibility: hidden;
+}
+
+.project.previous.moving-center p {
+  display: block;
+}
+
+/* New previous element appears from the left */
+.project.previous.moving-in-from-left,
+.project.moving-in-from-left.previous {
+  left: 50%;
+  transform: translateX(calc(-50vw - (var(--card-width) / 2))) !important;
+  width: var(--card-width);
+  max-width: var(--card-width);
+  padding: 20px !important;
+  opacity: var(--preview-opacity) !important;
+  z-index: 0;
+  top: var(--image-alignment) !important;
+  will-change: transform, opacity;
+  backface-visibility: hidden;
+}
+
+/* Previous moves to left (animation helper) */
+.project.previous.moving-left {
+  transform: translateX(calc(-50vw - 150px));
+}
+
+/* ============================================
+   Animation States: Moving Out
+   ============================================ */
+
+.project.previous.moving-out {
+  transform: translateX(calc(-50vw - 100px));
+  opacity: 0;
+  will-change: transform, opacity;
+  backface-visibility: hidden;
+}
+
+.project.next.moving-out {
+  transform: translateX(calc(50vw + 100px));
+  opacity: 0;
+  will-change: transform, opacity;
+  backface-visibility: hidden;
+}
+
+/* ============================================
+   Utilities
+   ============================================ */
+
+/* Hide elements waiting to appear (must come after .project.next) */
+.project.waiting-to-appear.next,
+.project.next.waiting-to-appear,
+.project.waiting-to-appear {
+  display: none !important;
+  visibility: hidden !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+  z-index: -1 !important;
+}
+
+/* ============================================
+   Info Section
+   ============================================ */
 
 .info {
-    font-size: 12px;
-    color: rgb(0, 0, 0);
-    line-height: 14px;
-    font-variation-settings: "srff" 100, "ital" 0, 'wght' 0;
-    padding: 20px;
-    border: 1px solid transparent;
-    text-align: left;
-    max-width: 600px;
-    margin: 0 auto;
-    position: absolute;
-    top: 520px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 100%;
-    max-width: 600px;
+  font-size: clamp(11px, 0.9vw, 13px);
+  color: rgb(0, 0, 0);
+  line-height: 18px;
+  font-weight: 400;
+  padding: 20px;
+  border: 1px solid transparent;
+  text-align: left;
+  max-width: calc(var(--card-width) * 0.95);
+  margin: 0 auto;
+  position: absolute;
+  top: calc(10vh + 54px + 350px + 20px);
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100%;
+  max-width: calc(var(--card-width) * 0.95);
 }
 
-/* Media query for smaller screens */
+.facts {
+  font-size: clamp(10px, 0.8vw, 11px);
+  color: rgb(0, 0, 0);
+  line-height: 18px;
+  font-weight: 300;
+  padding: 20px;
+  border: 1px solid transparent;
+  text-align: left;
+  max-width: calc(var(--card-width) * 0.95);
+  margin: 0 auto;
+  position: absolute;
+  top: calc(10vh + 54px + 350px + 20px + 120px); /* Position below info with spacing */
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100%;
+  max-width: calc(var(--card-width) * 0.95);
+}
+
+/* ============================================
+   Navigation & UI Elements
+   ============================================ */
+
+html, body {
+  background: #fff;
+  font-family: 'Inter';
+  z-index: 1;
+  padding: 20px;
+  margin: 0;
+  overflow: hidden;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-weight: 400;
+  line-height: 16px;
+  cursor: crosshair;
+}
+
+.intro {
+  cursor: pointer;
+  font-size: clamp(20px, 2.2vw, 30px);
+  font-weight: 200;
+  top: 40px;
+  right: 30px;
+  transform-origin: top right;
+  position: fixed;
+  z-index: 1001;
+  border: 0.5px solid black;
+  padding: 2px 5px;
+  transition: var(--transition);
+  display: inline-block;
+  box-sizing: border-box;
+}
+
+.intro:hover {
+  background-color: #f5f5f5;
+}
+
+.intro p {
+  margin: 0;
+  line-height: 1;
+}
+
+.intro:hover .bread {
+  display: block;
+  opacity: 1;
+}
+
+.bread {
+  display: none;
+  top: 50px;
+  right: 0px;
+  width: 200px;
+  font-size: clamp(11px, 0.9vw, 13px);
+  line-height: 30px;
+  font-weight: 300;
+  background-color: white;
+  position: absolute;
+  text-align: middle;
+  z-index: 1000;
+  border: 0.5px solid black;
+  padding: 15px;
+}
+
+.bread p {
+  margin: 0 0 10px;
+  line-height: 1.4;
+}
+
+.bread img {
+  max-width: 100%;
+  width: 250px;
+  height: auto;
+  display: block;
+  margin-top: 10px;
+  border: 0.5px solid black;
+}
+
+.back {
+  cursor: pointer;
+  font-size: clamp(20px, 2.2vw, 30px);
+  font-weight: 200;
+  position: fixed;
+  top: 40px;
+  left: 30px;
+  transform-origin: top left;
+  border: 0.5px solid black;
+  padding: 2px 5px;
+  transition: var(--transition);
+  display: inline-block;
+  box-sizing: border-box;
+}
+
+.back:hover {
+  background-color: #f5f5f5;
+}
+
+.back p {
+  margin: 0;
+  line-height: 1;
+}
+
+.selected works {
+  font-size: clamp(18px, 1.8vw, 24px);
+  text-align: center;
+  cursor: default;
+  position: absolute;
+  top: 10px;
+}
+
+/* ============================================
+   Media Queries
+   ============================================ */
+
+/* Intermediate screen sizes - keep same card size; only position changes */
+@media screen and (max-width: 1200px) and (min-width: 769px) {
+}
+
 @media screen and (max-width: 768px) {
+  .project {
+    top: 8vh;
+  }
+
+  .project.next {
+    top: calc(8vh + 20px + 16px + 16px + 14px);
+    transform: translateX(calc(50vw - 100px));
+    width: 250px !important;
+    min-width: 250px !important;
+    max-width: 250px !important;
+  }
+
+  .project.next img {
+    width: 250px !important;
+    min-width: 250px !important;
+    max-width: 250px !important;
+    height: 400px !important;
+    object-fit: cover !important;
+    flex-shrink: 0 !important;
+    box-sizing: border-box !important;
+  }
+
+  .project.previous {
+    top: calc(8vh + 20px + 16px + 16px + 14px + 1px);
+    width: 250px !important;
+    min-width: 250px !important;
+    max-width: 250px !important;
+  }
+  
+  .project.previous img {
+    width: 250px !important;
+    min-width: 250px !important;
+    max-width: 250px !important;
+    height: 400px !important;
+    object-fit: cover !important;
+    flex-shrink: 0 !important;
+    box-sizing: border-box !important;
+  }
+
+  .project.visible.moving-to-previous {
+    transform: translateX(calc(-50vw - 100px));
+    width: 250px !important;
+    min-width: 250px !important;
+    max-width: 250px !important;
+    top: calc(8vh + 20px + 16px + 16px + 14px);
+  }
+
+  .info {
+    top: calc(8vh + 20px + 18px + 18px + 400px + 20px);
+  }
+
+  .facts {
+    top: calc(8vh + 20px + 18px + 18px + 400px + 20px + 120px); /* Position below info with spacing on mobile */
+  }
+
   .bread {
     top: 80px;
     right: 10px;
@@ -187,4 +594,3 @@ html, body {
     border: 0.5px solid black;
   }
 }
-

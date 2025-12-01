@@ -4,20 +4,31 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href='https://fonts.googleapis.com/css?family=EB Garamond' rel='stylesheet'>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Roboto+Condensed:ital,wght@0,100..900;1,100..900&family=Roboto+Mono:ital,wght@0,100..700;1,100..700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="main.css">
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="/images/favicon.png">
+    <link rel="alternate icon" type="image/png" href="/images/favicon.png">
+    <link rel="mask-icon" href="/images/favicon.png" color="#000000">
  </head>
 <body>
-    <div class="box"> <img src="images/2024-02-07-0001.jpg"></div>
+    <!-- Projects page embedded behind with low opacity -->
+    <iframe id="projects-iframe" src="projects.html" class="projects-background"></iframe>
+    
     <div class="context"><p>Made by me <3 Oslo 2024<p></div>
+
+        <div class="guide"><p>...Click to see a sample of my work...</p>
+            </div>
     
     <div class="card" id="main-card">
         <div class="head">Maija Hauger<br></div>
         <br><br><br><br><br><br><br>
         <div class="adress">
-         Design (Oslo) <br><br>[+47 981 03 455]<br><a href="mailto: maijahauger@outlook.com">maijahauger@outlook.com</a><br><a href="https://www.instagram.com/maijahauger_arkiv/" target="_blank" rel="noopener noreferrer">@maijahauger_arkiv</a><br><br>MA Design from The Oslo School of Architecture and Design<br><br>      </div>
+         Designer (Oslo) <br><br>[+47 981 03 455]<br><a href="mailto: maijahauger@outlook.com">maijahauger@outlook.com</a><br><a href="https://www.instagram.com/maijahauger_arkiv/" target="_blank" rel="noopener noreferrer">@maijahauger_arkiv</a><br><br>MA Design from The Oslo School of Architecture and Design<br><br>      </div>
          <div class="scroll"> 
-            ...Tap to see projects...
+            
         <br><br>
         </div>
           
@@ -30,28 +41,70 @@
      </div>
 
 <script>
-// Handle click redirect with screen size detection
+// Handle click to show projects
 document.getElementById('main-card').addEventListener('click', function(e) {
     // Check if screen width is greater than mobile breakpoint (typically 768px)
     if (window.innerWidth > 768) {
-        window.location.href = 'projects.html';
+        const iframe = document.getElementById('projects-iframe');
+        const card = document.getElementById('main-card');
+        const guide = document.querySelector('.guide');
+        const context = document.querySelector('.context');
+        
+        // Fade out index content
+        card.style.transition = 'opacity 0.6s ease-in-out';
+        card.style.opacity = '0';
+        card.style.pointerEvents = 'none';
+        if (guide) {
+            guide.style.transition = 'opacity 0.6s ease-in-out';
+            guide.style.opacity = '0';
+        }
+        if (context) {
+            context.style.transition = 'opacity 0.6s ease-in-out';
+            context.style.opacity = '0';
+        }
+        
+        // Fade in projects iframe to full opacity
+        iframe.style.transition = 'opacity 0.6s ease-in-out';
+        iframe.style.opacity = '1';
+        iframe.style.pointerEvents = 'auto';
+        iframe.style.zIndex = '10';
     }
     // If mobile, do nothing (no redirect)
 });
 
-// Handle scroll text blinking behavior
-window.addEventListener('load', function() {
-    const scrollElement = document.querySelector('.scroll');
+// Listen for messages from the iframe (Home button click)
+window.addEventListener('message', function(event) {
+    // Only accept messages from same origin for security
+    if (event.origin !== window.location.origin) return;
     
-    // Check if user is coming back from projects page
-    if (document.referrer.includes('projects.html')) {
-        // Make it invisible when returning from projects
-        scrollElement.style.display = 'none';
-    } else {
-        // First visit - keep blinking continuously
-        scrollElement.style.animation = 'blink 1s steps(1, end) infinite';
+    if (event.data === 'goHome') {
+        const iframe = document.getElementById('projects-iframe');
+        const card = document.getElementById('main-card');
+        const guide = document.querySelector('.guide');
+        const context = document.querySelector('.context');
+        
+        // Fade out projects iframe
+        iframe.style.transition = 'opacity 0.6s ease-in-out';
+        iframe.style.opacity = '0.15';
+        iframe.style.pointerEvents = 'none';
+        iframe.style.zIndex = '1';
+        
+        // Fade in index content
+        card.style.transition = 'opacity 0.6s ease-in-out';
+        card.style.opacity = '1';
+        card.style.pointerEvents = 'auto';
+        if (guide) {
+            guide.style.transition = 'opacity 0.6s ease-in-out';
+            guide.style.opacity = '1';
+        }
+        if (context) {
+            context.style.transition = 'opacity 0.6s ease-in-out';
+            context.style.opacity = '1';
+        }
     }
 });
+
+// Blink animation removed - no longer needed
 </script>
 
 </body>

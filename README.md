@@ -1,6 +1,6 @@
 # Maija Hauger Portfolio Website
 
-A portfolio website showcasing Maija Hauger's design work.
+A beautiful, minimalist portfolio website showcasing Maija Hauger's design work with smooth page transitions and elegant navigation.
 
 ## Features
 
@@ -95,6 +95,15 @@ The website is optimized for performance with:
 ## License
 
 This project is licensed under the MIT License.
+
+
+
+
+
+
+
+
+
 
 
 
