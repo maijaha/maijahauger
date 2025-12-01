@@ -416,11 +416,11 @@ html, body {
   -moz-osx-font-smoothing: grayscale;
   font-weight: 400;
   line-height: 16px;
-  cursor: crosshair;
+  cursor: default;
 }
 
 .intro {
-  cursor: pointer;
+  cursor: default;
   font-size: clamp(20px, 2.2vw, 30px);
   font-weight: 200;
   top: 40px;
