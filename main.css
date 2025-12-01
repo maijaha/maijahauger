@@ -81,7 +81,7 @@ ul, li {
 }
 
 a, button, input, label {
-  cursor: default;
+  cursor: pointer;
 }
 
 /* ============================================
